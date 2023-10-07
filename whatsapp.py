@@ -23,16 +23,18 @@ def send_whatsapp_message(text_response, received_number):
         }
     }
 
-    response = requests.post(url, json=data, headers=headers)
-
-    pass
+    requests.post(url, json=data, headers=headers)
 
 
 def extract_whatsapp_received_message(message):
-    content = message['entry'][0]['changes'][0]['value']['messages'][0]['text']['body']
-    return content
+    value = message['entry'][0]['changes'][0]['value']
+
+    if 'messages' in value:
+        return value['messages'][0]['text']['body']
 
 
 def extract_whatsapp_received_number(message):
-    number = message['entry'][0]['changes'][0]['value']['messages'][0]['from']
-    return number
+    value = message['entry'][0]['changes'][0]['value']
+
+    if 'messages' in value:
+        return value['messages'][0]['from']
