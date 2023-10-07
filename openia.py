@@ -3,11 +3,12 @@ import openai
 
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 
+history = []
 
-def mount_messages(new_message):
-    return [
-        {"role": "user", "content": new_message},
-    ]
+
+def mount_messages(content, role="user"):
+    history.append({"role": role, "content": content})
+    return history
 
 
 def extract_openia_response(response):
@@ -24,6 +25,8 @@ def get_ia_response(new_message):
         model="gpt-3.5-turbo",
     )
 
-    response = extract_openia_response(response)
+    extracted_response = extract_openia_response(response)
 
-    return response
+    mount_messages(extracted_response, role="assistant")
+
+    return extracted_response
