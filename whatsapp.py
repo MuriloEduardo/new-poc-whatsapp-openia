@@ -5,7 +5,6 @@ WHATSAPP_TOKEN = os.getenv('WHATSAPP_TOKEN')
 WHATSAPP_API_VERSION = os.getenv('WHATSAPP_API_VERSION')
 WHATSAPP_VERIFY_TOKEN = os.getenv('WHATSAPP_VERIFY_TOKEN')
 WHATSAPP_SENDER_NUMBER = os.getenv('WHATSAPP_SENDER_NUMBER')
-WHATSAPP_RECEIVER_NUMBER = os.getenv('WHATSAPP_RECEIVER_NUMBER')
 
 
 def send_whatsapp_message(text_response, received_number):
@@ -24,7 +23,10 @@ def send_whatsapp_message(text_response, received_number):
             }
         }
 
-        requests.post(url, json=data, headers=headers)
+        response = requests.post(url, json=data, headers=headers)
+
+        if response.status_code != 200:
+            raise Exception(response.text)
     except Exception as e:
         print(e)
 
