@@ -46,6 +46,10 @@ async def receive_whatsapp_webhook(request: Request):
     received_number = extract_whatsapp_received_number(request_json)
 
     if received_message:
+        print('############## Start get_ia_response ##############')
         ia_response = get_ia_response(received_message)
+        print('############## End get_ia_response ##############')
 
+        print('############## Start send_whatsapp_message ##############')
         send_whatsapp_message(ia_response, received_number)
+        print('############## End send_whatsapp_message ##############')
