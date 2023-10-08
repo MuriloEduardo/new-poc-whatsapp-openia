@@ -16,6 +16,16 @@ app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 
+@app.get('', response_class=HTMLResponse)
+def index():
+    return open("static/index.html").read()
+
+
+@app.get('/politica-de-privacidade', response_class=HTMLResponse)
+def politica_de_privacidade():
+    return open("static/politica_de_privacidade.html").read()
+
+
 @app.get('/whatsapp-business/webhook')
 def verify_facebook_webhook(request: Request):
     challenge = request.query_params.get('hub.challenge')
@@ -39,13 +49,3 @@ async def receive_whatsapp_webhook(request: Request):
         ia_response = get_ia_response(received_message)
 
         send_whatsapp_message(ia_response, received_number)
-
-
-@app.get('/politica-de-privacidade', response_class=HTMLResponse)
-def politica_de_privacidade():
-    return open("static/politica_de_privacidade.html").read()
-
-
-@app.get('', response_class=HTMLResponse)
-def politica_de_privacidade():
-    return open("static/index.html").read()
