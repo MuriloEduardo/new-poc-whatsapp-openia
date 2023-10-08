@@ -16,8 +16,8 @@ app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 
-@app.get('', response_class=HTMLResponse)
-def index():
+@app.get('/', response_class=HTMLResponse)
+def static_index():
     return open("static/index.html").read()
 
 
