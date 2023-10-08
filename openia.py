@@ -19,14 +19,17 @@ def extract_openia_response(response):
 def get_ia_response(new_message):
     messages = mount_messages(new_message)
 
-    response = openai.ChatCompletion.create(
-        temperature=0.7,
-        messages=messages,
-        model="gpt-3.5-turbo",
-    )
+    try:
+        response = openai.ChatCompletion.create(
+            temperature=0.7,
+            messages=messages,
+            model="gpt-3.5-turbo",
+        )
 
-    extracted_response = extract_openia_response(response)
+        extracted_response = extract_openia_response(response)
 
-    mount_messages(extracted_response, role="assistant")
+        mount_messages(extracted_response, role="assistant")
 
-    return extracted_response
+        return extracted_response
+    except Exception as e:
+        print(e)

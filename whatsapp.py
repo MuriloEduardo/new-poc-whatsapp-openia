@@ -9,21 +9,24 @@ WHATSAPP_RECEIVER_NUMBER = os.getenv('WHATSAPP_RECEIVER_NUMBER')
 
 
 def send_whatsapp_message(text_response, received_number):
-    url = f"https://graph.facebook.com/{WHATSAPP_API_VERSION}/{WHATSAPP_SENDER_NUMBER}/messages"
-    headers = {
-        'Content-Type': 'application/json',
-        'Authorization': f'Bearer {WHATSAPP_TOKEN}'
-    }
-    data = {
-        "to": received_number,
-        "messaging_product": "whatsapp",
-        "type": "text",
-        "text": {
-            "body": text_response
+    try:
+        url = f"https://graph.facebook.com/{WHATSAPP_API_VERSION}/{WHATSAPP_SENDER_NUMBER}/messages"
+        headers = {
+            'Content-Type': 'application/json',
+            'Authorization': f'Bearer {WHATSAPP_TOKEN}'
         }
-    }
+        data = {
+            "to": received_number,
+            "messaging_product": "whatsapp",
+            "type": "text",
+            "text": {
+                "body": text_response
+            }
+        }
 
-    requests.post(url, json=data, headers=headers)
+        requests.post(url, json=data, headers=headers)
+    except Exception as e:
+        print(e)
 
 
 def extract_whatsapp_received_message(message):
